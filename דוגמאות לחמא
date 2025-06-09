@@ -277,12 +277,14 @@
             border-radius: 8px;
             padding: 15px;
             white-space: pre-wrap;
-            font-family: 'Courier New', monospace;
+            font-family: 'Arial', sans-serif;
             font-size: 0.9rem;
             max-height: 400px;
             overflow-y: auto;
             margin: 15px 0;
             direction: rtl;
+            text-align: right;
+            line-height: 1.6;
         }
 
         .summary-card {
@@ -377,7 +379,7 @@
         <div class="main-content">
             <form id="orderForm">
                 <div class="form-section">
-                    <h2 style="color: #2E7D7D; margin-bottom: 20px;">📋 פרטי ההזמנה הכלליים</h2>
+                    <h2 style="color: #2E7D7D; margin-bottom: 20px;">פרטי ההזמנה הכלליים</h2>
                     <div class="header-form">
                         <div class="form-group">
                             <label for="clientName">🏢 שם הלקוח *</label>
@@ -385,13 +387,44 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for="fillDate">📅 תאריך מילוי *</label>
-                            <input type="date" id="fillDate" required>
+                            <label for="pickupDate">תאריך איסוף מתוכנן *</label>
+                            <input type="date" id="pickupDate" required>
                         </div>
 
                         <div class="form-group">
-                            <label for="pickupDate">🚚 תאריך איסוף מתוכנן *</label>
-                            <input type="date" id="pickupDate" required>
+                            <label for="pickupTime">שעה מבוקשת *</label>
+                            <select id="pickupTime" required>
+                                <option value="">בחר שעה</option>
+                                <option value="05:00">05:00</option>
+                                <option value="05:30">05:30</option>
+                                <option value="06:00">06:00</option>
+                                <option value="06:30">06:30</option>
+                                <option value="07:00">07:00</option>
+                                <option value="07:30">07:30</option>
+                                <option value="08:00">08:00</option>
+                                <option value="08:30">08:30</option>
+                                <option value="09:00">09:00</option>
+                                <option value="09:30">09:30</option>
+                                <option value="10:00">10:00</option>
+                                <option value="10:30">10:30</option>
+                                <option value="11:00">11:00</option>
+                                <option value="11:30">11:30</option>
+                                <option value="12:00">12:00</option>
+                                <option value="12:30">12:30</option>
+                                <option value="13:00">13:00</option>
+                                <option value="13:30">13:30</option>
+                                <option value="14:00">14:00</option>
+                                <option value="14:30">14:30</option>
+                                <option value="15:00">15:00</option>
+                                <option value="15:30">15:30</option>
+                                <option value="16:00">16:00</option>
+                                <option value="16:30">16:30</option>
+                                <option value="17:00">17:00</option>
+                                <option value="17:30">17:30</option>
+                                <option value="18:00">18:00</option>
+                                <option value="18:30">18:30</option>
+                                <option value="19:00">19:00</option>
+                            </select>
                         </div>
 
                         <div class="form-group">
@@ -402,7 +435,7 @@
                 </div>
 
                 <div class="products-section">
-                    <div class="products-title">📦 פרטי המוצרים להזמנה</div>
+                    <div class="products-title">פרטי המוצרים להזמנה</div>
                     <div style="overflow-x: auto;">
                         <table class="products-table">
                             <thead>
@@ -422,15 +455,15 @@
                 </div>
 
                 <div class="actions">
-                    <button type="button" class="btn btn-primary" onclick="generateOutput()">📋 הצג פלט נתונים</button>
-                    <button type="button" class="btn btn-success" onclick="exportData()">📁 ייצוא לקובץ</button>
-                    <button type="button" class="btn btn-secondary" onclick="emailData()">📧 שלח במייל</button>
-                    <button type="button" class="btn btn-secondary" onclick="clearForm()">🗑️ נקה טופס</button>
+                    <button type="button" class="btn btn-primary" onclick="generateOutput()">הצג פלט נתונים</button>
+                    <button type="button" class="btn btn-success" onclick="exportData()">ייצוא לקובץ</button>
+                    <button type="button" class="btn btn-secondary" onclick="emailData()">שלח במייל</button>
+                    <button type="button" class="btn btn-secondary" onclick="clearForm()">נקה טופס</button>
                 </div>
             </form>
 
             <div id="outputSection" class="output-section" style="display: none;">
-                <h2 style="color: #2E7D7D;">📤 פלט נתונים</h2>
+                <h2 style="color: #2E7D7D;">פלט נתונים</h2>
                 <div id="outputDisplay" class="output-text"></div>
             </div>
         </div>
@@ -440,14 +473,14 @@
         // יצירת אפשרויות מצב המוצר
         const productStates = [
             { value: "", text: "בחר מצב" },
-            { value: "אפוי", text: "🔥 אפוי" },
-            { value: "קפוא", text: "❄️ קפוא" },
-            { value: "טרי", text: "🌿 טרי" },
-            { value: "מיובש", text: "☀️ מיובש" },
-            { value: "מותסס", text: "⚗️ מותסס" },
-            { value: "מבושל", text: "🍲 מבושל" },
-            { value: "גלם", text: "🥩 גלם" },
-            { value: "חצי מוכן", text: "⚡ חצי מוכן" }
+            { value: "אפוי", text: "אפוי" },
+            { value: "קפוא", text: "קפוא" },
+            { value: "טרי", text: "טרי" },
+            { value: "מיובש", text: "מיובש" },
+            { value: "מותסס", text: "מותסס" },
+            { value: "מבושל", text: "מבושל" },
+            { value: "גלם", text: "גלם" },
+            { value: "חצי מוכן", text: "חצי מוכן" }
         ];
 
         // אתחול הטבלה
@@ -477,11 +510,6 @@
                     </td>
                 `;
                 tbody.appendChild(row);
-                
-                // הגדרת תאריך ברירת מחדל
-                if (i === 1) {
-                    document.getElementById('fillDate').valueAsDate = new Date();
-                }
             }
         }
 
@@ -511,8 +539,8 @@
         function validateForm() {
             const requiredFields = [
                 { id: 'clientName', name: 'שם הלקוח' },
-                { id: 'fillDate', name: 'תאריך מילוי' },
                 { id: 'pickupDate', name: 'תאריך איסוף מתוכנן' },
+                { id: 'pickupTime', name: 'שעה מבוקשת' },
                 { id: 'ordererName', name: 'שם המזמין' }
             ];
 
@@ -533,13 +561,14 @@
                 }
             });
 
-            // בדיקת תאריכים
-            const fillDate = new Date(document.getElementById('fillDate').value);
+            // בדיקת תאריכים - הסרת הבדיקה כי אין יותר תאריך מילוי
             const pickupDate = new Date(document.getElementById('pickupDate').value);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
             
-            if (fillDate && pickupDate && pickupDate < fillDate) {
+            if (pickupDate && pickupDate < today) {
                 document.getElementById('pickupDate').classList.add('validation-error');
-                errors.push('תאריך איסוף מתוכנן חייב להיות אחרי תאריך המילוי');
+                errors.push('תאריך איסוף מתוכנן חייב להיות היום או תאריך עתידי');
                 isValid = false;
             }
 
@@ -572,57 +601,53 @@
         // יצירת פלט מעוצב
         function generateFormattedOutput() {
             const clientName = document.getElementById('clientName').value;
-            const fillDate = document.getElementById('fillDate').value;
             const pickupDate = document.getElementById('pickupDate').value;
+            const pickupTime = document.getElementById('pickupTime').value;
             const ordererName = document.getElementById('ordererName').value;
             const products = collectProductsData();
 
-            const formattedFillDate = new Date(fillDate).toLocaleDateString('he-IL');
             const formattedPickupDate = new Date(pickupDate).toLocaleDateString('he-IL');
 
             let output = `
-═══════════════════════════════════════════════════════════
-                      🧪 הזמנת דוגמאות                      
-═══════════════════════════════════════════════════════════
+לחמא - הזמנת דוגמאות
+____________________________________
 
-📋 פרטי ההזמנה:
----------------------------
-🏢 שם הלקוח: ${clientName}
-📅 תאריך מילוי: ${formattedFillDate}
-🚚 תאריך איסוף מתוכנן: ${formattedPickupDate}
-👤 שם המזמין: ${ordererName}
-⏰ זמן יצירת ההזמנה: ${new Date().toLocaleString('he-IL')}
+פרטי ההזמנה:
+שם הלקוח: ${clientName}
+תאריך איסוף מתוכנן: ${formattedPickupDate}
+שעה מבוקשת: ${pickupTime}
+שם המזמין: ${ordererName}
+זמן יצירת ההזמנה: ${new Date().toLocaleString('he-IL')}
 
-📦 פרטי המוצרים:
----------------------------
+פרטי המוצרים:
+____________________________________
 `;
 
             if (products.length > 0) {
-                output += `מס' | מק"ט        | שם המוצר                    | כמות  | מצב המוצר\n`;
-                output += `-----|-------------|------------------------------|-------|------------------\n`;
+                output += `\nמס׳    מק״ט              שם המוצר                     כמות    מצב המוצר\n`;
+                output += `____________________________________________________________________\n`;
                 
                 products.forEach(product => {
-                    const num = product.number.toString().padStart(2, ' ');
-                    const sku = (product.sku || 'לא צוין').padEnd(12, ' ');
+                    const num = product.number.toString().padEnd(6, ' ');
+                    const sku = (product.sku || 'לא צוין').padEnd(18, ' ');
                     const name = (product.productName || 'לא צוין').padEnd(28, ' ');
-                    const qty = (product.quantity || 'לא צוין').padEnd(6, ' ');
+                    const qty = (product.quantity || 'לא צוין').padEnd(8, ' ');
                     const state = product.state || 'לא צוין';
                     
-                    output += `${num}   | ${sku}| ${name} | ${qty}| ${state}\n`;
+                    output += `${num}${sku}${name}${qty}${state}\n`;
                 });
             } else {
-                output += `לא הוזנו מוצרים.\n`;
+                output += `\nלא הוזנו מוצרים.\n`;
             }
 
-            output += `\n═══════════════════════════════════════════════════════════
-📊 סיכום ההזמנה:
----------------------------
-• סה"כ מוצרים: ${products.length}
-• מוצרים עם כמות: ${products.filter(p => p.quantity).length}
-• מוצרים עם מצב מוגדר: ${products.filter(p => p.state).length}
+            output += `\n____________________________________
+סיכום ההזמנה:
+סה״כ מוצרים: ${products.length}
+מוצרים עם כמות: ${products.filter(p => p.quantity).length}
+מוצרים עם מצב מוגדר: ${products.filter(p => p.state).length}
 
-תודה על ההזמנה! 🙏
-═══════════════════════════════════════════════════════════`;
+תודה על ההזמנה!
+____________________________________`;
 
             return output;
         }
@@ -655,8 +680,8 @@
             const a = document.createElement('a');
             
             const clientName = document.getElementById('clientName').value;
-            const fillDate = document.getElementById('fillDate').value;
-            const fileName = `הזמנת_דוגמאות_${clientName}_${fillDate}.txt`;
+            const pickupDate = document.getElementById('pickupDate').value;
+            const fileName = `הזמנת_דוגמאות_${clientName}_${pickupDate}.txt`;
             
             a.href = url;
             a.download = fileName;
@@ -672,7 +697,7 @@
                 background: #28a745; color: white; padding: 15px 25px;
                 border-radius: 8px; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             `;
-            successDiv.textContent = '🎉 הקובץ יוצא בהצלחה!';
+            successDiv.textContent = 'הקובץ יוצא בהצלחה!';
             document.body.appendChild(successDiv);
             
             setTimeout(() => {
@@ -687,8 +712,8 @@
             }
 
             const clientName = document.getElementById('clientName').value;
-            const fillDate = document.getElementById('fillDate').value;
-            const subject = `הזמנת דוגמאות - ${clientName} - ${new Date(fillDate).toLocaleDateString('he-IL')}`;
+            const pickupDate = document.getElementById('pickupDate').value;
+            const subject = `הזמנת דוגמאות - ${clientName} - ${new Date(pickupDate).toLocaleDateString('he-IL')}`;
             const body = generateFormattedOutput();
             
             const mailtoLink = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -705,7 +730,6 @@
         function clearForm() {
             if (confirm('האם אתה בטוח שברצונך לנקות את כל הטופס?')) {
                 document.getElementById('orderForm').reset();
-                document.getElementById('fillDate').valueAsDate = new Date();
                 document.getElementById('outputSection').style.display = 'none';
                 
                 // הסרת שגיאות ולידציה
@@ -726,7 +750,6 @@
         // אתחול האפליקציה
         document.addEventListener('DOMContentLoaded', function() {
             initializeProductsTable();
-            document.getElementById('fillDate').valueAsDate = new Date();
             document.getElementById('clientName').focus();
         });
 
